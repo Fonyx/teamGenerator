@@ -1,6 +1,5 @@
 const Employee = require('../lib/Employee');
 
-
 // top level test of Employee class
 describe('Employee', () => {
     // testing initialization
@@ -15,11 +14,13 @@ describe('Employee', () => {
         });
         it("should return an email string", () => {
             const employee = new Employee('James', 1, 'validEmail');
-            expect(employee.name).toBe('validEmail');
+            expect(employee.email).toBe('validEmail');
         });
+
+        // Missing arguments
         it("should raise a MissingArgumentError if miss-constructed", () => {
             expect(()=> {
-                new Employee()
+                new Employee();
             }).toThrowError(MissingArgumentError);
         })
         it("should raise a MissingArgumentError Error if miss-constructed", () => {
@@ -32,24 +33,21 @@ describe('Employee', () => {
                 new Employee('Jarrod', 4)
             }).toThrowError(MissingArgumentError);
         })
-        it("should raise a MissingArgumentError Error if miss-constructed", () => {
+
+        // incorrect types for arguments - str, int, str
+        it("should raise a BadArgumentError if bad name", () => {
             expect(()=> {
-                new Employee('Jarrod', 4, 'ValidEmail')
-            }).toThrowError(MissingArgumentError);
+                new Employee(0, 1, 'email');
+            }).toThrowError(BadArgumentError);
         })
         it("should raise a BadArgumentError if bad id", () => {
             expect(()=> {
-                new Employee('ValidName', 'badId', 'ValidEmail', 1);
-            }).toThrowError(BadArgumentError);
-        })
-        it("should raise a BadArgumentError if bad name", () => {
-            expect(()=> {
-                new Employee(0, 0, 'ValidEmail', 1);
+                new Employee('Name', 'BadId-ShouldBeInt', 'email');
             }).toThrowError(BadArgumentError);
         })
         it("should raise a BadArgumentError if bad email", () => {
             expect(()=> {
-                new Employee('ValidName', 'badId', 0, 1);
+                new Employee('Name', 'BadId-ShouldBeInt', {badEmail:'ThisShouldBeAStringNotAnObject'});
             }).toThrowError(BadArgumentError);
         })
     });

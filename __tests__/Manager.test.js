@@ -4,20 +4,17 @@ const Manager = require('../lib/Manager');
 describe('Manager', () => {
     // testing initialization
     describe('Initialization', () => {
+        let manager = new Manager('James', 1, 'validEmail', 123);
         it("should return a name string", () => {
-            const manager = new Manager('James', 1, 'validEmail', 123);
             expect(manager.name).toEqual('James');
         });
         it("should return a id as integer", () => {
-            const manager = new Manager('James', 1, 'validEmail', 123);
             expect(manager.id).toBe(1);
         });
         it("should return an email string", () => {
-            const manager = new Manager('James', 1, 'validEmail', 123);
             expect(manager.name).toBe('validEmail');
         });
         it("should return an email string", () => {
-            const manager = new Manager('James', 1, 'validEmail', 123);
             expect(manager.officeNumber).toBe(123);
         });
 
@@ -44,19 +41,19 @@ describe('Manager', () => {
         })
 
 
-        it("should raise a BadArgumentError if bad id", () => {
-            expect(()=> {
-                new Manager('ValidName', 'badId', 'ValidEmail', 1);
-            }).toThrowError(BadArgumentError);
-        })
         it("should raise a BadArgumentError if bad name", () => {
             expect(()=> {
                 new Manager(0, 0, 'ValidEmail', 1);
             }).toThrowError(BadArgumentError);
         })
+        it("should raise a BadArgumentError if bad id", () => {
+            expect(()=> {
+                new Manager('ValidName', 'badId', 'ValidEmail', 1);
+            }).toThrowError(BadArgumentError);
+        })
         it("should raise a BadArgumentError if bad email", () => {
             expect(()=> {
-                new Manager('ValidName', 'badId', 0, 1);
+                new Manager('ValidName', 0, {badEmail: "badEmailShouldBeStringNotObject"}, 1);
             }).toThrowError(BadArgumentError);
         })
         it("should raise a BadArgumentError if bad office number", () => {

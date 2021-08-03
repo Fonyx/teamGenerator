@@ -4,20 +4,21 @@ const Intern = require('../lib/Intern');
 describe('Intern', () => {
     // testing initialization
     describe('Initialization', () => {
+        let intern = new Intern('James', 1, 'validEmail', 'SchoolName');
         it("should return a name string", () => {
-            const intern = new Intern('James', 1, 'validEmail');
             expect(intern.name).toEqual('James');
         });
         it("should return a id as integer", () => {
-            const intern = new Intern('James', 1, 'validEmail');
             expect(intern.id).toBe(1);
         });
         it("should return an email string", () => {
-            const intern = new Intern('James', 1, 'validEmail');
             expect(intern.name).toBe('validEmail');
         });
+        it("should return a school string", () => {
+            expect(intern.school).toBe('SchoolName');
+        });
 
-
+        // missing arguments
         it("should raise a MissingArgumentError if miss-constructed", () => {
             expect(()=> {
                 new Intern()
@@ -39,20 +40,25 @@ describe('Intern', () => {
             }).toThrowError(MissingArgumentError);
         })
 
-
+        // bad argument types
+        it("should raise a BadArgumentError if bad name", () => {
+            expect(()=> {
+                new Intern('ValidName', 0, 'ValidEmail', 1);
+            }).toThrowError(BadArgumentError);
+        })
         it("should raise a BadArgumentError if bad id", () => {
             expect(()=> {
                 new Intern('ValidName', 'badId', 'ValidEmail', 1);
             }).toThrowError(BadArgumentError);
-        })
-        it("should raise a BadArgumentError if bad name", () => {
-            expect(()=> {
-                new Intern(0, 0, 'ValidEmail', 1);
-            }).toThrowError(BadArgumentError);
-        })
+        });
         it("should raise a BadArgumentError if bad email", () => {
             expect(()=> {
-                new Intern('ValidName', 'badId', 0, 1);
+                new Intern('ValidName', 1, 0, 1);
+            }).toThrowError(BadArgumentError);
+        });
+        it("should raise a BadArgumentError if bad school", () => {
+            expect(()=> {
+                new Intern('ValidName', 1, 'ValidEmail', 0);
             }).toThrowError(BadArgumentError);
         })
     });
@@ -82,6 +88,13 @@ describe('Intern', () => {
         const intern = new Intern('Jemima', 2, 'anotherValidEmail');
         it("should return a role string", () => {
             expect(intern.getRole()).toEqual('Intern');
+        });
+    });
+    // testing get school method
+    describe('get school method', () => {
+        const intern = new Intern('Jemima', 2, 'anotherValidEmail', 'SchoolName');
+        it("should return a school string", () => {
+            expect(intern.getSchool()).toEqual('SchoolName');
         });
     });
 });

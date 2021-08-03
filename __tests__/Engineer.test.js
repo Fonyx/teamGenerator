@@ -18,7 +18,7 @@ describe('Engineer', () => {
             expect(engineer.name).toBe('validEmail');
         });
 
-
+        // missing arguments at initialization
         it("should raise a MissingArgumentError if miss-constructed", () => {
             expect(()=> {
                 new Engineer()
@@ -40,25 +40,25 @@ describe('Engineer', () => {
             }).toThrowError(MissingArgumentError);
         });
 
-
-        it("should raise a BadArgumentError if bad id", () => {
-            expect(()=> {
-                new Engineer('ValidName', 'badId', 'ValidEmail', 'github');
-            }).toThrowError(BadArgumentError);
-        });
+        // bad arguments at initialization
         it("should raise a BadArgumentError if bad name", () => {
             expect(()=> {
-                new Engineer(0, 0, 'ValidEmail', 'github');
+                new Engineer(0, 1, 'ValidEmail', 'ValidGithub');
+            }).toThrowError(BadArgumentError);
+        });
+        it("should raise a BadArgumentError if bad id", () => {
+            expect(()=> {
+                new Engineer('ValidName', 'badId', 'ValidEmail', 'ValidGithub');
             }).toThrowError(BadArgumentError);
         });
         it("should raise a BadArgumentError if bad email", () => {
             expect(()=> {
-                new Engineer('ValidName', 'badId', 0, 'github');
+                new Engineer('ValidName', 1, 0, 'ValidGithub');
             }).toThrowError(BadArgumentError);
         });
         it("should raise a BadArgumentError if bad github", () => {
             expect(()=> {
-                new Engineer('ValidName', 'badId', 'ValidEmail', 0);
+                new Engineer('ValidName', 1, 'ValidEmail', 0);
             }).toThrowError(BadArgumentError);
         });
     });
