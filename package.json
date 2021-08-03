@@ -1,0 +1,27 @@
+{
+  "name": "teamGenerator",
+  "version": "1.0.0",
+  "description": "A node command line utilitty that generates an about page for a software company",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fonyx/teamGenerator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fonyx/teamGenerator/issues"
+  },
+  "homepage": "https://github.com/Fonyx/teamGenerator#readme",
+  "dependencies": {
+    "inquirer": "^8.1.2",
+    "jest": "^27.0.6"
+  }
+}
