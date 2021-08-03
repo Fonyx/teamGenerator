@@ -1,4 +1,5 @@
 const Employee = require('../lib/Employee');
+const Exceptions = require('../lib/Exceptions');
 
 // top level test of Employee class
 describe('Employee', () => {
@@ -6,7 +7,7 @@ describe('Employee', () => {
     describe('Initialization', () => {
         it("should return a name string", () => {
             const employee = new Employee('James', 1, 'validEmail');
-            expect(employee.name).toEqual('James');
+            expect(employee.name).toBe('James');
         });
         it("should return a id integer", () => {
             const employee = new Employee('James', 1, 'validEmail');
@@ -18,65 +19,65 @@ describe('Employee', () => {
         });
 
         // Missing arguments
-        it("should raise a MissingArgumentError if miss-constructed", () => {
+        it("should raise a MissingArgumentError if no arguments", () => {
             expect(()=> {
                 new Employee();
-            }).toThrowError(MissingArgumentError);
-        })
-        it("should raise a MissingArgumentError Error if miss-constructed", () => {
+            }).toThrowError(Exceptions.MissingArgumentError);
+        });
+        it("should raise a MissingArgumentError if missing id", () => {
+            expect(() => {
+                new Employee('Jarrod', 'email');
+            }).toThrowError(Exceptions.MissingArgumentError);
+        });
+        it("should raise a MissingArgumentError if missing email", () => {
             expect(()=> {
-                new Employee('Jarrod')
-            }).toThrowError(MissingArgumentError);
-        })
-        it("should raise a MissingArgumentError Error if miss-constructed", () => {
-            expect(()=> {
-                new Employee('Jarrod', 4)
-            }).toThrowError(MissingArgumentError);
-        })
+                new Employee('Jarrod', 4);
+            }).toThrowError(Exceptions.MissingArgumentError);
+        });
 
         // incorrect types for arguments - str, int, str
         it("should raise a BadArgumentError if bad name", () => {
             expect(()=> {
-                new Employee(0, 1, 'email');
-            }).toThrowError(BadArgumentError);
-        })
+                new Employee(0, 'BadId-ShouldBeInt', 'email');
+            }).toThrowError(Exceptions.BadArgumentError);
+        });
         it("should raise a BadArgumentError if bad id", () => {
             expect(()=> {
                 new Employee('Name', 'BadId-ShouldBeInt', 'email');
-            }).toThrowError(BadArgumentError);
-        })
+            }).toThrowError(Exceptions.BadArgumentError);
+        });
         it("should raise a BadArgumentError if bad email", () => {
             expect(()=> {
                 new Employee('Name', 'BadId-ShouldBeInt', {badEmail:'ThisShouldBeAStringNotAnObject'});
-            }).toThrowError(BadArgumentError);
-        })
+            }).toThrowError(Exceptions.BadArgumentError);
+        });
     });
-    // testing get name method
+    //testing get name method
     describe('get name method', () => {
         const employee = new Employee('Jemima', 2, 'anotherValidEmail');
         it("should return a name string", () => {
-            expect(employee.getName()).toEqual('James');
+            expect(employee.getName()).toBe('Jemima');
         });
     });
     // testing get id method
     describe('get id method', () => {
         const employee = new Employee('Jemima', 2, 'anotherValidEmail');
         it("should return an id integer", () => {
-            expect(employee.getId()).toEqual(2);
+            expect(employee.getId()).toBe(2);
         });
     });
     // testing get email method
     describe('get email method', () => {
         const employee = new Employee('Jemima', 2, 'anotherValidEmail');
         it("should return an email string", () => {
-            expect(employee.getEmail()).toEqual('anotherValidEmail');
+            expect(employee.getEmail()).toBe('anotherValidEmail');
         });
     });
     // testing get role method
     describe('get role method', () => {
         const employee = new Employee('Jemima', 2, 'anotherValidEmail');
         it("should return a role string", () => {
-            expect(employee.getRole()).toEqual('Employee');
+            expect(employee.getRole()).toBe('Employee');
         });
     });
 });
