@@ -48,22 +48,27 @@ describe('url validator testing', ()=>{
 
     // unhappy path - bad argument type - invalid url
     it('Should return boolean false when passed bad url string', async () => {
-        const result = await member.confirmValidUrl('Not a valid url');
-        expect(result).toBe(false);
-    });
-    // unhappy path - bad argument type - not ok status url
-    it('Should return bool false when passed url string with non 200 return code', async () => {
-        const result = await member.confirmValidUrl('https://httpstat.us/300');
+        const result = await member.confirmValidGithubUrl('Not a valid url');
         expect(result).toBe(false);
     });
     // unhappy path - bad argument type - object
     it('Should return bool false when passed bad object', async () => {
-        const result = await member.confirmValidUrl({notAString: 'meh'});
+        const result = await member.confirmValidGithubUrl({notAString: 'meh'});
+        expect(result).toBe(false);
+    });
+    // unhappy path - invalid url - not ok status url
+    it('Should return bool false when passed url string with non 200 return code', async () => {
+        const result = await member.confirmValidGithubUrl('https://httpstat.us/300');
+        expect(result).toBe(false);
+    });
+    // unhappy path - invalid url - not github url
+    it('Should return bool false when passed url string with non 200 return code', async () => {
+        const result = await member.confirmValidGithubUrl('https://httpstat.us/200');
         expect(result).toBe(false);
     });
     // happy path - valid url
     it('Should return true boolean when passed valid int', async () => {
-        const result = await member.confirmValidUrl('https://github.com/');
+        const result = await member.confirmValidGithubUrl('https://github.com/');
         expect(result).toBe(true);
     });
 });
