@@ -4,9 +4,19 @@ const member = require('../lib/Member');
 // https://stackoverflow.com/questions/57321266/how-to-test-inquirer-validation
 describe('String validator testing', ()=>{
     // unhappy path
-    it('Should return Incorrect type when passed integer as bad name', async () => {
+    it('Should return bool false when passed integer as bad name', async () => {
         const result = await member.confirmStringValidator(0);
-        expect(result).toBe('Incorrect type');
+        expect(result).toBe(false);
+    });
+    // unhappy path
+    it('Should return bool false when passed empty string as name', async () => {
+        const result = await member.confirmStringValidator('');
+        expect(result).toBe(false);
+    });
+    // unhappy path - should reject parsable numbers
+    it('Should return bool false when passed string that can be cast to int', async () => {
+        const result = await member.confirmStringValidator('12345');
+        expect(result).toBe(false);
     });
     // happy path
     it('Should return true boolean when passed valid string', async () => {
@@ -17,9 +27,14 @@ describe('String validator testing', ()=>{
 
 describe('Id validator testing', ()=>{
     // unhappy path
-    it('Should return Incorrect type when passed string as bad id', async () => {
+    it('Should return bool false when passed string as bad id', async () => {
         const result = await member.confirmIntValidator('Not an Integer');
-        expect(result).toBe('Incorrect type');
+        expect(result).toBe(false);
+    });
+    // unhappy path
+    it('Should return bool false when passed string with mixed alpha numerics', async () => {
+        const result = await member.confirmIntValidator('3f4');
+        expect(result).toBe(false);
     });
     // happy path
     it('Should return true boolean when passed valid int', async () => {
@@ -37,18 +52,46 @@ describe('url validator testing', ()=>{
         expect(result).toBe(false);
     });
     // unhappy path - bad argument type - not ok status url
-    it('Should return exists-not ok when passed url string with non 200 return code', async () => {
+    it('Should return bool false when passed url string with non 200 return code', async () => {
         const result = await member.confirmValidUrl('https://httpstat.us/300');
-        expect(result).toBe('exists-not ok');
+        expect(result).toBe(false);
     });
     // unhappy path - bad argument type - object
-    it('Should return Not a string when passed bad object', async () => {
+    it('Should return bool false when passed bad object', async () => {
         const result = await member.confirmValidUrl({notAString: 'meh'});
-        expect(result).toBe('Not a string');
+        expect(result).toBe(false);
     });
     // happy path - valid url
     it('Should return true boolean when passed valid int', async () => {
         const result = await member.confirmValidUrl('https://github.com/');
+        expect(result).toBe(true);
+    });
+});
+
+describe('email validator testing', ()=>{
+    // unhappy path - bad argument type - object instead of string
+    it('Should return boolean false when passed an object instead of a string', async () => {
+        const result = await member.confirmEmailValidator({bad: 'badType'});
+        expect(result).toBe(false);
+    });
+    // unhappy path - bad argument type - integer instead of string
+    it('Should return bool false when passed bad integer instead of string', async () => {
+        const result = await member.confirmEmailValidator(0);
+        expect(result).toBe(false);
+    });
+    // unhappy path - invalid string - missing @
+    it('Should return bool false when passed invalid string', async () => {
+        const result = await member.confirmEmailValidator('nick.gmail.com');
+        expect(result).toBe(false);
+    });
+    // unhappy path - invalid string - missing .
+    it('Should return bool false when passed invalid string', async () => {
+        const result = await member.confirmEmailValidator('nick@gmail@com');
+        expect(result).toBe(false);
+    });
+    // happy path - valid string
+    it('Should return true boolean when passed valid email string', async () => {
+        const result = await member.confirmEmailValidator('nick@fake.me');
         expect(result).toBe(true);
     });
 });
