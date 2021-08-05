@@ -1,5 +1,11 @@
-const member = require('./lib/Member');
+const Member = require('./lib/Member');
+const render = require('./src/renderer');
 
-console.log('Running');
+async function runProgram(){
+    var renderer = new render.Renderer();
+    let member = new Member.MemberPrompt();
+    let details = await member.prompt().then((res) => console.log(res));
+}
 
-let memberDetails = new member.MemberPrompt();
+await runProgram();
+
