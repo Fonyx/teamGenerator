@@ -27,6 +27,6 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "inquirer-test": "^2.0.1"
+    "cheerio": "^1.0.0-rc.10"
   }
 }
