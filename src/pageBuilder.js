@@ -1,5 +1,13 @@
+// https://www.npmjs.com/package/cheerio
+const cheerio = require('cheerio');
 const inquirer = require("inquirer");
 const fetch = require('node-fetch');
+const exceptions = require('../lib/Exceptions');
+const Engineer = require('../lib/Engineer');
+const Manager = require('../lib/Manager');
+const Intern = require('../lib/Intern');
+
+
 // https://stackoverflow.com/questions/57321266/how-to-test-inquirer-validation
 const confirmStringValidator = async (userText)=> {
     try{
@@ -50,12 +58,7 @@ const confirmValidGithubUrl = async (userText)=> {
                 return false
             }
         });
-        if(valid){
-            return true;
-        } else {
-            // fetch returned a non-ok status
-            return false;
-        }
+        return valid;
     // fetch failed entirely
     } catch (err) {
         return false
@@ -72,10 +75,62 @@ const confirmEmailValidator = async (userText)=> {
     return false
 }
 
-class MemberPrompt{
-    constructor(){}
+class PageBuilder{
+    constructor({title}={}){
+        this.$ = undefined;
+        this.members = [];
+        this.builtStarterCheerio(title);
+    }
 
-    async prompt(){
+    addContentBySelector({selector, content}={}){
+        // checking argument presence
+        if(selector === undefined || content === undefined){
+            throw new exceptions.MissingArgumentError();
+        }
+        // checking argument types
+        if(typeof(selector) !== 'string' || typeof(content) !== 'string'){
+            throw new exceptions.BadArgumentError()
+        }
+        this.$(selector).text(content);
+    }
+
+    builtStarterCheerio(title){
+        this.$ = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${title}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false); // don't auto add html, head and body tags
+    }
+
+    constructEmployeeFromBaseAnswers(memberAnswers){
+        switch (memberAnswers.memberType){
+            case 'Engineer':
+                var newMember = new Engineer({
+                    name:memberAnswers.name, 
+                    id:memberAnswers.id,
+                    email:memberAnswers.email,
+                    github:memberAnswers.github,
+                })
+                break
+            case 'Manager':
+                var newMember = new Manager({
+                    name:memberAnswers.name, 
+                    id:memberAnswers.id,
+                    email:memberAnswers.email,
+                    officeNumber:memberAnswers.officeNumber,
+                })
+                break
+            case 'Intern':
+                var newMember = new Intern({
+                    name:memberAnswers.name, 
+                    id:memberAnswers.id,
+                    email:memberAnswers.email,
+                    school:memberAnswers.school,
+                })
+                break
+        }
+
+        this.members.push(newMember);
+        console.log(this.members);
+    }
+
+    async promptMember(){
         return inquirer.prompt([{
             type: 'input',
             message: 'Team member name',
@@ -109,7 +164,6 @@ class MemberPrompt{
                     })
                     .then((answer) => {
                         baseAnswers['memberOfficeNumber'] = answer.memberOfficeNumber;
-                        return baseAnswers;
                     })
                     .catch((err) =>{
                         console.error(err);
@@ -125,7 +179,6 @@ class MemberPrompt{
                     })
                     .then((answer) => {
                         baseAnswers['memberGithubLink'] = answer.memberGithubLink;
-                        return baseAnswers;
                     })
                     .catch((err) =>{
                         console.error(err);
@@ -141,22 +194,40 @@ class MemberPrompt{
                     })
                     .then((answer) => {
                         baseAnswers['memberSchoolName'] = answer.memberSchoolName;
-                        return baseAnswers;
                     })
                     .catch((err) =>{
                         console.error(err);
                     })
                     break
             }
+            this.constructEmployeeFromBaseAnswers(baseAnswers);
         })
         .catch((error) => {
             console.error(error);
         })
     }
+
+    renderToHtml(){
+        console.log(`Current dom html is: ${this.$.html()}`);
+        return this.$.html();
+    }
+
+    run(){
+        // get first member
+        this.promptMember()
+        // ask user for more
+        // render
+    }
+
+    text(){
+        console.log(`Current dom text is: ${this.$.text()}`)
+        return this.$.text();
+    }
+
 }
 
 module.exports = {
-    MemberPrompt,
+    PageBuilder,
     confirmStringValidator,
     confirmIntValidator,
     confirmValidGithubUrl,

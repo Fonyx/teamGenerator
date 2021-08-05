@@ -2,99 +2,94 @@ const Intern = require('../lib/Intern');
 const exceptions = require('../lib/Exceptions');
 // top level test of Intern class
 describe('Intern', () => {
+    let validIntern = new Intern({name:'James', id:1, email:'validEmail', school:'SchoolName'});
     // testing initialization
     describe('Initialization', () => {
-        let intern = new Intern('James', 1, 'validEmail', 'SchoolName');
         it("should return a name string", () => {
-            expect(intern.name).toEqual('James');
+            expect(validIntern.name).toEqual('James');
         });
         it("should return a id as integer", () => {
-            expect(intern.id).toBe(1);
+            expect(validIntern.id).toBe(1);
         });
         it("should return an email string", () => {
-            expect(intern.email).toBe('validEmail');
+            expect(validIntern.email).toBe('validEmail');
         });
         it("should return a school string", () => {
-            expect(intern.school).toBe('SchoolName');
+            expect(validIntern.school).toBe('SchoolName');
         });
 
         // missing arguments
         it("should raise a exceptions.MissingArgumentError if missing all arguments", () => {
             expect(()=> {
-                new Intern()
+                new Intern({});
             }).toThrow(exceptions.MissingArgumentError);
         })
         it("should raise a exceptions.MissingArgumentError if missing last 3 arguments", () => {
             expect(()=> {
-                new Intern('Jarrod')
+                new Intern({name:'Jarrod'})
             }).toThrow(exceptions.MissingArgumentError);
         })
         it("should raise a exceptions.MissingArgumentError if missing last 2 arguments", () => {
             expect(()=> {
-                new Intern('Jarrod', 4)
+                new Intern({name:'Jarrod', id:4})
             }).toThrow(exceptions.MissingArgumentError);
         })
         it("should raise a exceptions.MissingArgumentError if missing last argument", () => {
             expect(()=> {
-                new Intern('Jarrod', 4, 'ValidEmail')
+                new Intern({name:'Jarrod', id:4, email:'ValidEmail'})
             }).toThrow(exceptions.MissingArgumentError);
         })
 
         // bad argument types - str, int, str, str
         it("should raise a exceptions.BadArgumentError if bad name", () => {
             expect(()=> {
-                new Intern(0, 1, 'ValidEmail', 'ValidSchoolName');
+                new Intern({name:0, id:1, email:'ValidEmail', school:'ValidSchoolName'});
             }).toThrow(exceptions.BadArgumentError);
         })
         it("should raise a exceptions.BadArgumentError if bad id", () => {
             expect(()=> {
-                new Intern('ValidName', 'badId', 'ValidEmail', 'ValidSchoolName');
+                new Intern({name:'ValidName', id:'badId', email:'ValidEmail', school:'ValidSchoolName'});;
             }).toThrow(exceptions.BadArgumentError);
         });
         it("should raise a exceptions.BadArgumentError if bad email", () => {
             expect(()=> {
-                new Intern('ValidName', 1, 0, 'ValidSchoolName');
+                new Intern({name:'ValidName', id:'badId', email:0, school:'ValidSchoolName'});
             }).toThrow(exceptions.BadArgumentError);
         });
         it("should raise a exceptions.BadArgumentError if bad school", () => {
             expect(()=> {
-                new Intern('ValidName', 1, 'ValidEmail', 0);
+                new Intern({name:'ValidName', id:'badId', email:0, school:0});
             }).toThrow(exceptions.BadArgumentError);
         })
     });
     // testing get name method
     describe('get name method', () => {
-        const intern = new Intern('Jemima', 2, 'anotherValidEmail', 'ValidSchoolName');
         it("should return a name string", () => {
-            expect(intern.getName()).toEqual('Jemima');
+            expect(validIntern.getName()).toEqual('James');
         });
     });
     // testing get id method
     describe('get id method', () => {
-        const intern = new Intern('Jemima', 2, 'anotherValidEmail', 'ValidSchoolName');
         it("should return an id integer", () => {
-            expect(intern.getId()).toEqual(2);
+            expect(validIntern.getId()).toEqual(1);
         });
     });
     // testing get email method
     describe('get email method', () => {
-        const intern = new Intern('Jemima', 2, 'anotherValidEmail', 'ValidSchoolName');
         it("should return an email string", () => {
-            expect(intern.getEmail()).toEqual('anotherValidEmail');
+            expect(validIntern.getEmail()).toEqual('validEmail');
         });
     });
     // testing get role method
     describe('get role method', () => {
-        const intern = new Intern('Jemima', 2, 'anotherValidEmail', 'ValidSchoolName');
         it("should return a role string", () => {
-            expect(intern.getRole()).toEqual('Intern');
+            expect(validIntern.getRole()).toEqual('Intern');
         });
     });
     // testing get school method
     describe('get school method', () => {
-        const intern = new Intern('Jemima', 2, 'anotherValidEmail', 'SchoolName');
         it("should return a school string", () => {
-            expect(intern.getSchool()).toEqual('SchoolName');
+            expect(validIntern.getSchool()).toEqual('SchoolName');
         });
     });
 });
