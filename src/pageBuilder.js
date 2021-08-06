@@ -2,6 +2,7 @@
 const cheerio = require('cheerio');
 const inquirer = require("inquirer");
 const fetch = require('node-fetch');
+const fs = require('fs');
 const exceptions = require('../lib/Exceptions');
 const Engineer = require('../lib/Engineer');
 const Manager = require('../lib/Manager');
@@ -80,7 +81,7 @@ class PageBuilder{
     constructor({title}={}){
         this.$ = undefined;
         this.members = [];
-        this.builtStarterCheerio(title);
+        this.buildStarterCheerio(title);
     }
 
     addContentBySelector({selector, content}={}){
@@ -95,7 +96,11 @@ class PageBuilder{
         this.$(selector).text(content);
     }
 
-    builtStarterCheerio(title){
+    /**
+     * html title element string
+     * @param {type} string title of the html document
+     */
+    buildStarterCheerio(title){
         this.$ = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${title}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false); // don't auto add html, head and body tags
     }
 
@@ -142,8 +147,12 @@ class PageBuilder{
         }
 
         this.members.push(newMember);
-        console.log(this.members);
         return newMember;
+    }
+
+    exportHtml(){
+        let html = this.getHtml();
+        fs.writeFileSync('index.html', html, 'utf8');
     }
 
     async promptMember(){
@@ -223,16 +232,16 @@ class PageBuilder{
         })
     }
 
-    renderToHtml(){
-        console.log(`Current dom html is: ${this.$.html()}`);
+    getHtml(){
         return this.$.html();
     }
 
-    run(){
+    async run(){
         // get first member
-        this.promptMember()
+        await this.promptMember()
         // ask user for more
         // render
+        this.exportHtml();
     }
 
     text(){

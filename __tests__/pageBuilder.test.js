@@ -13,14 +13,14 @@ describe('PageBuilder Initializing', () => {
             let testTitle = 'About';
             const renderer = new pageBuilder.PageBuilder({title: testTitle});
             const templateHtml = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${'BAD'}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false); 
-            expect(renderer.renderToHtml()).not.toBe(templateHtml.html());
+            expect(renderer.getHtml()).not.toBe(templateHtml.html());
         });
         // happy path - init with title string
         it('should return bool false if passed integer', () => {
             let testTitle = 'About';
             const renderer = new pageBuilder.PageBuilder({title: testTitle});
             const templateHtml = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${testTitle}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false);
-            expect(renderer.renderToHtml()).toBe(templateHtml.html());
+            expect(renderer.getHtml()).toBe(templateHtml.html());
         });
     });
     

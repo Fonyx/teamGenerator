@@ -5,48 +5,48 @@ const Exceptions = require('../lib/Exceptions');
 describe('Employee', () => {
     // testing initialization
     describe('Initialization', () => {
+        // Happy Path
         it("should return a name string", () => {
-            const employee = new Employee('James', 1, 'validEmail');
+            const employee = new Employee('James', '1', 'validEmail');
             expect(employee.name).toBe('James');
         });
         it("should return a id integer", () => {
-            const employee = new Employee('James', 1, 'validEmail');
+            const employee = new Employee('James', '1', 'validEmail');
             expect(employee.id).toBe(1);
         });
         it("should return an email string", () => {
-            const employee = new Employee('James', 1, 'validEmail');
+            const employee = new Employee('James', '1', 'validEmail');
             expect(employee.email).toBe('validEmail');
         });
 
         // Missing arguments
-        it("should raise a MissingArgumentError if no arguments", () => {
+        it("UHP should raise a MissingArgumentError if no arguments", () => {
             expect(()=> {
                 new Employee();
             }).toThrowError(Exceptions.MissingArgumentError);
         });
-        it("should raise a MissingArgumentError if missing id", () => {
+        it("UHP should raise a MissingArgumentError if missing id", () => {
             expect(() => {
                 new Employee('Jarrod', 'email');
             }).toThrowError(Exceptions.MissingArgumentError);
         });
-        it("should raise a MissingArgumentError if missing email", () => {
+        it("UHP should raise a MissingArgumentError if missing email", () => {
             expect(()=> {
                 new Employee('Jarrod', 4);
             }).toThrowError(Exceptions.MissingArgumentError);
         });
-
         // incorrect types for arguments - str, int, str
-        it("should raise a BadArgumentError if bad name", () => {
+        it("UHP should raise a BadArgumentError if bad name", () => {
             expect(()=> {
                 new Employee(0, 'BadId-ShouldBeInt', 'email');
             }).toThrowError(Exceptions.BadArgumentError);
         });
-        it("should raise a BadArgumentError if bad id", () => {
+        it("UHP should raise a BadArgumentError if bad id", () => {
             expect(()=> {
                 new Employee('Name', 'BadId-ShouldBeInt', 'email');
             }).toThrowError(Exceptions.BadArgumentError);
         });
-        it("should raise a BadArgumentError if bad email", () => {
+        it("UHP should raise a BadArgumentError if bad email", () => {
             expect(()=> {
                 new Employee('Name', 'BadId-ShouldBeInt', {badEmail:'ThisShouldBeAStringNotAnObject'});
             }).toThrowError(Exceptions.BadArgumentError);
