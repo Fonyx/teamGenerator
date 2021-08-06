@@ -98,36 +98,48 @@ class PageBuilder{
         this.$ = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${title}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false); // don't auto add html, head and body tags
     }
 
-    constructEmployeeFromBaseAnswers(memberAnswers){
-        switch (memberAnswers.memberType){
+    constructEmployeeFromBaseAnswers(answers){
+        // answers must have a type attribute
+        if(!answers.memberType){
+            throw new exceptions.AttributeError();
+        }
+        // answers must have valid core attributes
+        if(!answers.memberName || !answers.memberId || !answers.memberEmail){
+            throw new exceptions.AttributeError();
+        }
+        switch (answers.memberType){
             case 'Engineer':
                 var newMember = new Engineer({
-                    name:memberAnswers.name, 
-                    id:memberAnswers.id,
-                    email:memberAnswers.email,
-                    github:memberAnswers.github,
+                    name:answers.memberName, 
+                    id:answers.memberId,
+                    email:answers.memberEmail,
+                    // if this is undefined, Engineer constructor handles
+                    github:answers.memberGithubLink,
                 })
                 break
             case 'Manager':
                 var newMember = new Manager({
-                    name:memberAnswers.name, 
-                    id:memberAnswers.id,
-                    email:memberAnswers.email,
-                    officeNumber:memberAnswers.officeNumber,
+                    name:answers.memberName, 
+                    id:answers.memberId,
+                    email:answers.memberEmail,
+                    // if this is undefined, Manager constructor handles
+                    officeNumber:answers.memberOfficeNumber,
                 })
                 break
             case 'Intern':
                 var newMember = new Intern({
-                    name:memberAnswers.name, 
-                    id:memberAnswers.id,
-                    email:memberAnswers.email,
-                    school:memberAnswers.school,
+                    name:answers.memberName, 
+                    id:answers.memberId,
+                    email:answers.memberEmail,
+                    // if this is undefined, Intern constructor handles
+                    school:answers.memberSchoolName,
                 })
                 break
         }
 
         this.members.push(newMember);
         console.log(this.members);
+        return newMember;
     }
 
     async promptMember(){

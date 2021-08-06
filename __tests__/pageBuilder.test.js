@@ -1,6 +1,9 @@
 const pageBuilder = require('../src/pageBuilder');
 const cheerio = require('cheerio');
 const exceptions = require('../lib/Exceptions');
+const Engineer = require('../lib/Engineer');
+const Manager = require('../lib/Manager');
+const Intern = require('../lib/Intern');
 
 // TESTING INIT AND PAGE BUILDER INTERNAL METHODS
 describe('PageBuilder Initializing', () => {
@@ -60,6 +63,104 @@ describe('Adding content to selector', () => {
         var validContent = '<h1>Did this get added</h1>';
         renderer.addContentBySelector({selector: validSelector, content: validContent});
         expect(renderer.text()).toEqual(expect.stringMatching('<h1>Did this get added</h1>'));
+    });
+})
+
+describe('Constructing member from answers', () => {
+    // --------------------- UNHAPPY PATHS
+    it('Should raise AttributeError when missing type', () => {
+        // setup
+        let answerMissingType = {memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(answerMissingType);
+        }).toThrowError(exceptions.AttributeError);
+        
+    });
+    it('Should raise AttributeException when missing name', () => {
+        // setup
+        let answerMissingName = {memberType: 'Engineer', memberId: 1, memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(answerMissingName);
+        }).toThrowError(exceptions.AttributeError);
+    });
+    it('Should raise AttributeException when missing id', () => {
+        // setup
+        let answerMissingId = {memberType: 'Engineer', memberName: 'James', memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(answerMissingId);
+        }).toThrowError(exceptions.AttributeError);
+    });
+    it('Should raise AttributeException when missing email', () => {
+        // setup
+        let answerMissingEmail = {memberType: 'Engineer', memberName: 'James', memberGithubLink: 'https://github.com/Fonyx'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(answerMissingEmail);
+        }).toThrowError(exceptions.AttributeError);
+    });
+    // Type specific missing value
+    it('Should raise AttributeException when missing githublink for engineer', () => {
+        // setup
+        let answerMissingGithub = {memberType: 'Engineer', memberName: 'James'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(answerMissingGithub);
+        }).toThrowError(exceptions.AttributeError);
+    });
+    it('Should raise AttributeException when missing office number for manager', () => {
+
+    });
+    it('Should raise AttributeException when missing school name for intern', () => {
+
+    });
+
+    // --------------------- HAPPY PATHS
+    it('should return valid object for valid answer object as engineer type', () => {
+        // setup
+        let validEngineerAnswers = {memberType: 'Engineer',memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run
+        let engineer = pb.constructEmployeeFromBaseAnswers(validEngineerAnswers)
+        // test
+        expect(engineer).toBeInstanceOf(Engineer);
+        expect(engineer.name).toBe(validEngineerAnswers.memberName);
+        expect(engineer.id).toBe(validEngineerAnswers.memberId);
+        expect(engineer.email).toBe(validEngineerAnswers.memberEmail);
+        expect(engineer.github).toBe(validEngineerAnswers.memberGithubLink);
+    });
+    it('should return valid object for passing valid answer object as manager type', () => {
+        // setup
+        let validManagerAnswers = {memberType: 'Manager',memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberOfficeNumber: 1};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run
+        let manager = pb.constructEmployeeFromBaseAnswers(validManagerAnswers)
+        // test
+        expect(manager).toBeInstanceOf(Manager);
+        expect(manager.name).toBe(validManagerAnswers.memberName);
+        expect(manager.id).toBe(validManagerAnswers.memberId);
+        expect(manager.email).toBe(validManagerAnswers.memberEmail);
+        expect(manager.officeNumber).toBe(validManagerAnswers.memberOfficeNumber);
+    });
+    it('should return valid object for passing valid answer object as intern type', () => {
+        // setup
+        let validInternAnswers = {memberType: 'Intern',memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberSchoolName: 'Radford'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run
+        let intern = pb.constructEmployeeFromBaseAnswers(validInternAnswers);
+        // test
+        expect(intern).toBeInstanceOf(Intern);
+        expect(intern.name).toBe(validInternAnswers.memberName);
+        expect(intern.id).toBe(validInternAnswers.memberId);
+        expect(intern.email).toBe(validInternAnswers.memberEmail);
+        expect(intern.school).toBe(validInternAnswers.memberSchoolName);
     });
 })
 
