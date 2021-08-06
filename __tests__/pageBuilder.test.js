@@ -68,60 +68,90 @@ describe('Adding content to selector', () => {
 
 describe('Constructing member from answers', () => {
     // --------------------- UNHAPPY PATHS
-    it('Should raise AttributeError when missing type', () => {
+    it('Should raise MissingArgumentError when missing type', () => {
         // setup
         let answerMissingType = {memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
         let pb = new pageBuilder.PageBuilder('Test');
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingType);
-        }).toThrowError(exceptions.AttributeError);
+        }).toThrowError(exceptions.MissingArgumentError);
         
     });
-    it('Should raise AttributeException when missing name', () => {
+    it('Should raise MissingArgumentError when missing name', () => {
         // setup
         let answerMissingName = {memberType: 'Engineer', memberId: 1, memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
         let pb = new pageBuilder.PageBuilder('Test');
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingName);
-        }).toThrowError(exceptions.AttributeError);
+        }).toThrowError(exceptions.MissingArgumentError);
     });
-    it('Should raise AttributeException when missing id', () => {
+    it('Should raise MissingArgumentError when missing id', () => {
         // setup
         let answerMissingId = {memberType: 'Engineer', memberName: 'James', memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
         let pb = new pageBuilder.PageBuilder('Test');
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingId);
-        }).toThrowError(exceptions.AttributeError);
+        }).toThrowError(exceptions.MissingArgumentError);
     });
-    it('Should raise AttributeException when missing email', () => {
+    it('Should raise MissingArgumentError when missing email', () => {
         // setup
-        let answerMissingEmail = {memberType: 'Engineer', memberName: 'James', memberGithubLink: 'https://github.com/Fonyx'};
+        let answerMissingEmail = {memberType: 'Engineer', memberName: 'James', memberId: 1, memberGithubLink: 'https://github.com/Fonyx'};
         let pb = new pageBuilder.PageBuilder('Test');
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingEmail);
-        }).toThrowError(exceptions.AttributeError);
+        }).toThrowError(exceptions.MissingArgumentError);
     });
     // Type specific missing value
-    it('Should raise AttributeException when missing githublink for engineer', () => {
+    it('Should raise MissingArgument when missing githublink for engineer', () => {
         // setup
-        let answerMissingGithub = {memberType: 'Engineer', memberName: 'James'};
+        let answerMissingGithub = {memberType: 'Engineer', memberName: 'James', memberId: 1, memberEmail: 'nick@g.com'};
         let pb = new pageBuilder.PageBuilder('Test');
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingGithub);
+        }).toThrowError(exceptions.MissingArgumentError);
+    });
+    it('Should raise MissingArgumentError when missing office number for manager', () => {
+        // setup
+        let answerMissingGithub = {memberType: 'Manager', memberName: 'James', memberId: 1, memberEmail:'Valid@email.this'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(answerMissingGithub);
+        }).toThrowError(exceptions.MissingArgumentError);
+    });
+    it('Should raise MissingArgumentError when missing school name for intern', () => {
+        // setup
+        let answerMissingGithub = {memberType: 'Intern', memberName: 'James', memberId: 1, memberEmail:'Valid@email.this'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(answerMissingGithub);
+        }).toThrowError(exceptions.MissingArgumentError);
+    });
+    // type string not in valid strings
+    it('Should raise AttributeError when type not exactly in valid type list', () => {
+        // setup
+        let badTypeAnswer = {memberType: 'inte', memberName: 'James', memberId: 1, memberEmail:'Valid@email.this'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(badTypeAnswer);
         }).toThrowError(exceptions.AttributeError);
     });
-    it('Should raise AttributeException when missing office number for manager', () => {
-
+    it('Should raise AttributeError when type not exactly in valid type list', () => {
+        // setup
+        let badTypeAnswer = {memberType: 'engineering', memberName: 'James', memberId: 1, memberEmail:'Valid@email.this'};
+        let pb = new pageBuilder.PageBuilder('Test');
+        // run and test
+        expect(() => {
+            pb.constructEmployeeFromBaseAnswers(badTypeAnswer);
+        }).toThrowError(exceptions.AttributeError);
     });
-    it('Should raise AttributeException when missing school name for intern', () => {
-
-    });
-
     // --------------------- HAPPY PATHS
     it('should return valid object for valid answer object as engineer type', () => {
         // setup

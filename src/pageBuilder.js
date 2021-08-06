@@ -6,6 +6,7 @@ const exceptions = require('../lib/Exceptions');
 const Engineer = require('../lib/Engineer');
 const Manager = require('../lib/Manager');
 const Intern = require('../lib/Intern');
+const validMemberTypes = ['Engineer', 'Intern', 'Manager']
 
 
 // https://stackoverflow.com/questions/57321266/how-to-test-inquirer-validation
@@ -101,11 +102,14 @@ class PageBuilder{
     constructEmployeeFromBaseAnswers(answers){
         // answers must have a type attribute
         if(!answers.memberType){
-            throw new exceptions.AttributeError();
+            throw new exceptions.MissingArgumentError();
+        }
+        if(!validMemberTypes.includes(answers.memberType)){
+            throw new exceptions.AttributeError(`Invalid attribute type, ${answers.type} not in valid member types`);
         }
         // answers must have valid core attributes
         if(!answers.memberName || !answers.memberId || !answers.memberEmail){
-            throw new exceptions.AttributeError();
+            throw new exceptions.MissingArgumentError();
         }
         switch (answers.memberType){
             case 'Engineer':
