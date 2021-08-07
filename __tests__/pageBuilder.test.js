@@ -8,27 +8,14 @@ const Intern = require('../lib/Intern');
 // TESTING INIT AND PAGE BUILDER INTERNAL METHODS
 describe('PageBuilder Initializing', () => {
 
-        // UNhappy path - check title was injected 
-        it('should return bool false if passed title not in html', () => {
+        // Happy Path path - check title in head, header, main and footer
+        it('HP title passed in and should be in html sections', () => {
             let testTitle = 'About';
             const renderer = new pageBuilder.PageBuilder({title: testTitle});
-            const templateHtml = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${'BAD'}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false); 
-            expect(renderer.getHtml()).not.toBe(templateHtml.html());
-        });
-        // happy path - init with title string
-        it('should pass when passed in a title', () => {
-            let testTitle = 'About';
-            const renderer = new pageBuilder.PageBuilder({title: testTitle});
-            const templateHtml = `<html><head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link src="./node_modules/normalize.css/normalize.css">
-<link src="./node_modules/materialize/materialize.css">
-<link src="./dist/style.css">
-<title>${testTitle}</title>
-</head><body><div id="cards">cards section</div></body></html>`;
-            expect(renderer.getHtml()).toBe(templateHtml);
+            expect(renderer.$('head').text()).toEqual(expect.stringContaining(testTitle));
+            expect(renderer.$('header').text()).toEqual(expect.stringContaining(testTitle));
+            expect(renderer.$('main').text()).toEqual(expect.stringContaining(testTitle));
+            expect(renderer.$('footer').text()).toEqual(expect.stringContaining(testTitle));
         });
     });
     
@@ -67,7 +54,7 @@ describe('Adding content to selector', () => {
     // ----------------- HAPPY path
     it('HP Renderer cheerio should contain content when valid selector, content passed to constructed instance', ()=> {
         const renderer = new pageBuilder.PageBuilder({title: 'ValidValue'});
-        var validSelector = '#cards';
+        var validSelector = '#cards-container';
         var validContent = '<h1>Did this get added</h1>';
         renderer.addContentBySelector({selector: validSelector, content: validContent});
         expect(renderer.getHtml()).toEqual(expect.stringContaining('<h1>Did this get added</h1>'));
