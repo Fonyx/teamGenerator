@@ -303,6 +303,8 @@ class PageBuilder{
                 console.log('User has finished building their team, exporting');
                 this.exportHtml();
             }
+        }).catch((err) => {
+            console.error(err);
         })
     }
 
