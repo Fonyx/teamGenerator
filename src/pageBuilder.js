@@ -85,7 +85,7 @@ class PageBuilder{
         this.buildStarterCheerio(title);
     }
 
-    addContentBySelector({selector, content}={}){
+    appendContentBySelector({selector, content}={}){
         // checking argument presence
         if(selector === undefined || content === undefined){
             throw new exceptions.MissingArgumentError();
@@ -102,47 +102,45 @@ class PageBuilder{
      * @param {type} string title of the html document
      */
     buildStarterCheerio(title){
-        // this.$ = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${title}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false); // don't auto add html, head and body tags
+        let headMeta = `
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link type="text/css" rel="stylesheet" href="./dist/css/normalize.css">
+<link type="text/css" rel="stylesheet" href="./dist/css/materialize.min.css" media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="./dist/css/style.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<title>${title}</title>\n`;
+
         this.$ = cheerio.load(`
-        <header>
-            <nav class="light-blue lighten-1" role="navigation">
-                <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">${title}</a>
-            </nav>
-        </header>
+    <header>
+    <nav class="grey" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">${title}</a>
+    </nav>
+    </header>
 
-        <main>
-            <section class="container" id="cards-container">
+    <main>
+        <section class="container">
+            <div class="row" id="cards-container">
                 ${title}
-            </section>
-        </main>
+            </div>
+        </section>
+    </main>
 
-        <footer class="page-footer orange">
-            <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                <h5 class="white-text" id="footer-title">${title}</h5>
-                </div>
-            </div>
-            </div>
-            <div class="footer-copyright">
-            <div class="container" id="footer-subtitle">${title}
-            </div>
-            </div>
-        </footer>
+    <footer class="page-footer grey">
+        <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+            <h5 class="white-text" id="footer-title">${title}</h5>
+        </div>
+    </footer>
 
-        <!--  Scripts-->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="./dist/js/materialize.min.js"></script>\n`);
+    <!--  Scripts-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="./dist/js/materialize.min.js"></script>\n`);
 
-        this.$('head').append(`
-    <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link type="text/css" rel="stylesheet" href="./dist/css/normalize.css">
-    <link type="text/css" rel="stylesheet" href="./dist/css/materialize.min.css" media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="./dist/css/style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>${title}</title>\n`)};
+        this.appendContentBySelector({selector: 'head', content: headMeta})
+    }
 
     constructEmployeeFromBaseAnswers(answers){
         // answers must have a type attribute
@@ -205,7 +203,7 @@ class PageBuilder{
      */
     makeCardsFromObjects(){
         for(var employee in this.employees){
-            this.addContentBySelector('#cards', employee.renderToHtml());
+            this.appendContentBySelector('#cards-container', employee.renderToHtml());
         }
     }
 

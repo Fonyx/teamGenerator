@@ -12,10 +12,10 @@ describe('PageBuilder Initializing', () => {
         it('HP title passed in and should be in html sections', () => {
             let testTitle = 'About';
             const renderer = new pageBuilder.PageBuilder({title: testTitle});
-            expect(renderer.$('head').text()).toEqual(expect.stringContaining(testTitle));
-            expect(renderer.$('header').text()).toEqual(expect.stringContaining(testTitle));
-            expect(renderer.$('main').text()).toEqual(expect.stringContaining(testTitle));
-            expect(renderer.$('footer').text()).toEqual(expect.stringContaining(testTitle));
+            expect(renderer.$('head').html()).toEqual(expect.stringContaining(testTitle));
+            expect(renderer.$('header').html()).toEqual(expect.stringContaining(testTitle));
+            expect(renderer.$('main').html()).toEqual(expect.stringContaining(testTitle));
+            expect(renderer.$('footer').html()).toEqual(expect.stringContaining(testTitle));
         });
     });
     
@@ -26,7 +26,7 @@ describe('Adding content to selector', () => {
         var invalidSelector = {bad: 'Wrong type'};
         var validContent = '<h1>Did this get added</h1>';
         expect(() => {
-            renderer.addContentBySelector({selector: invalidSelector, content: validContent});
+            renderer.appendContentBySelector({selector: invalidSelector, content: validContent});
         }).toThrowError(exceptions.BadArgumentError);
     });
     it('UHP passing in object instead of string to content should raise badArgumentError', ()=> {
@@ -34,21 +34,21 @@ describe('Adding content to selector', () => {
         var validSelector = '#cards';
         var inValidContent = {bad: 'Wrong type'};
         expect(() => {
-            renderer.addContentBySelector({selector: validSelector, content: inValidContent});
+            renderer.appendContentBySelector({selector: validSelector, content: inValidContent});
         }).toThrowError(exceptions.BadArgumentError);
     });
     it('UHP no content argument should raise missingArgumentError', ()=> {
         const renderer = new pageBuilder.PageBuilder({title: 'ValidValue'});
         var validContent = 'Valid';
         expect(() => {
-            renderer.addContentBySelector({content: validContent});
+            renderer.appendContentBySelector({content: validContent});
         }).toThrowError(exceptions.MissingArgumentError);
     });
     it('UHP no selector argument should raise missingArgumentError', ()=> {
         const renderer = new pageBuilder.PageBuilder({title: 'ValidValue'});
         var validSelector = 'Valid';
         expect(() => {
-            renderer.addContentBySelector({selector: validSelector});
+            renderer.appendContentBySelector({selector: validSelector});
         }).toThrowError(exceptions.MissingArgumentError);
     });
     // ----------------- HAPPY path
@@ -56,7 +56,7 @@ describe('Adding content to selector', () => {
         const renderer = new pageBuilder.PageBuilder({title: 'ValidValue'});
         var validSelector = '#cards-container';
         var validContent = '<h1>Did this get added</h1>';
-        renderer.addContentBySelector({selector: validSelector, content: validContent});
+        renderer.appendContentBySelector({selector: validSelector, content: validContent});
         expect(renderer.getHtml()).toEqual(expect.stringContaining('<h1>Did this get added</h1>'));
     });
 })
