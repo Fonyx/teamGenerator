@@ -14,7 +14,6 @@ describe('PageBuilder Initializing', () => {
             const renderer = new pageBuilder.PageBuilder({title: testTitle});
             expect(renderer.$('head').html()).toEqual(expect.stringContaining(testTitle));
             expect(renderer.$('header').html()).toEqual(expect.stringContaining(testTitle));
-            expect(renderer.$('main').html()).toEqual(expect.stringContaining(testTitle));
             expect(renderer.$('footer').html()).toEqual(expect.stringContaining(testTitle));
         });
     });

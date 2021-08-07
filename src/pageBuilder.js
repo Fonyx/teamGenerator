@@ -122,7 +122,6 @@ class PageBuilder{
     <main>
         <section class="container">
             <div class="row" id="cards-container">
-                ${title}
             </div>
         </section>
     </main>
@@ -189,12 +188,15 @@ class PageBuilder{
     }
 
     exportHtml(){
+        this.makeCardsFromObjects();
         let html = this.getHtml();
         fs.writeFileSync('index.html', html, 'utf8');
     }
 
     getHtml(){
-        return this.$.root().html();
+        let faultyHtml = this.$.root().html();
+        let doctypedHtml = '<!DOCTYPE html>\n'+faultyHtml;
+        return doctypedHtml;
     }
 
     /**
@@ -202,8 +204,8 @@ class PageBuilder{
      * @param {Employee subclass} teamMember 
      */
     makeCardsFromObjects(){
-        for(var employee in this.employees){
-            this.appendContentBySelector('#cards-container', employee.renderToHtml());
+        for(var employee of this.employees){
+            this.appendContentBySelector({selector: '#cards-container', content: employee.renderToHtml()});
         }
     }
 
