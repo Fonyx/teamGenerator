@@ -7,6 +7,7 @@ const exceptions = require('../lib/Exceptions');
 const Engineer = require('../lib/Engineer');
 const Manager = require('../lib/Manager');
 const Intern = require('../lib/Intern');
+const Employee = require('../lib/Employee');
 const validMemberTypes = ['Engineer', 'Intern', 'Manager']
 
 
@@ -93,7 +94,7 @@ class PageBuilder{
         if(typeof(selector) !== 'string' || typeof(content) !== 'string'){
             throw new exceptions.BadArgumentError()
         }
-        this.$(selector).text(content);
+        this.$(selector).append('\n'+content+'\n');
     }
 
     /**
@@ -101,8 +102,16 @@ class PageBuilder{
      * @param {type} string title of the html document
      */
     buildStarterCheerio(title){
-        this.$ = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${title}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false); // don't auto add html, head and body tags
-    }
+        // this.$ = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${title}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false); // don't auto add html, head and body tags
+        this.$ = cheerio.load('<div id="cards">cards section</div>');
+        this.$('head').append(`
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link src="./node_modules/normalize.css/normalize.css">
+<link src="./node_modules/materialize/materialize.css">
+<link src="./dist/style.css">
+<title>${title}</title>\n`)};
 
     constructEmployeeFromBaseAnswers(answers){
         // answers must have a type attribute
@@ -153,6 +162,18 @@ class PageBuilder{
     exportHtml(){
         let html = this.getHtml();
         fs.writeFileSync('index.html', html, 'utf8');
+    }
+
+    getHtml(){
+        return this.$.root().html();
+    }
+
+    /**
+     * Accepts a team member object, calls its render method to get card html, then adds to dom
+     * @param {Employee subclass} teamMember 
+     */
+    makeCardFromObject(teamMember){
+        console.log(teamMember);
     }
 
     async promptMember(){
@@ -230,10 +251,6 @@ class PageBuilder{
         .catch((error) => {
             console.error(error);
         })
-    }
-
-    getHtml(){
-        return this.$.html();
     }
 
     async run(){

@@ -16,11 +16,19 @@ describe('PageBuilder Initializing', () => {
             expect(renderer.getHtml()).not.toBe(templateHtml.html());
         });
         // happy path - init with title string
-        it('should return bool false if passed integer', () => {
+        it('should pass when passed in a title', () => {
             let testTitle = 'About';
             const renderer = new pageBuilder.PageBuilder({title: testTitle});
-            const templateHtml = cheerio.load(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${testTitle}</title></head><body><div id='cards'>cards section</div></body></html>`, null, false);
-            expect(renderer.getHtml()).toBe(templateHtml.html());
+            const templateHtml = `<html><head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link src="./node_modules/normalize.css/normalize.css">
+<link src="./node_modules/materialize/materialize.css">
+<link src="./dist/style.css">
+<title>${testTitle}</title>
+</head><body><div id="cards">cards section</div></body></html>`;
+            expect(renderer.getHtml()).toBe(templateHtml);
         });
     });
     
@@ -62,7 +70,7 @@ describe('Adding content to selector', () => {
         var validSelector = '#cards';
         var validContent = '<h1>Did this get added</h1>';
         renderer.addContentBySelector({selector: validSelector, content: validContent});
-        expect(renderer.text()).toEqual(expect.stringMatching('<h1>Did this get added</h1>'));
+        expect(renderer.getHtml()).toEqual(expect.stringContaining('<h1>Did this get added</h1>'));
     });
 })
 
