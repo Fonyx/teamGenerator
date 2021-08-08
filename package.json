@@ -1,7 +1,7 @@
 {
   "name": "teamGenerator",
   "version": "1.0.0",
-  "description": "A node command line utilitty that generates an about page for a software company",
+  "description": "A node command line utilitty that generates an about page for a team",
   "main": "index.js",
   "directories": {
     "test": "test"

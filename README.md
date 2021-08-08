@@ -1,18 +1,20 @@
-# Project: [teamGenerator](https://github.com/Fonyx/teamGenerator)
+# Project: [Team Page Generator](https://github.com/Fonyx/teamGenerator)
 
 ## Version
 
-1.0.0  
+1.0.0
 
 ![badmath](https://img.shields.io/github/license/Fonyx/teamGenerator)  ![badmath](https://img.shields.io/github/languages/count/Fonyx/teamGenerator)  ![badmath](https://img.shields.io/github/commit-activity/m/Fonyx/teamGenerator)  ![badmath](https://img.shields.io/github/contributors/Fonyx/teamGenerator)  
 
 ## Description
 
-A node command line utilitty that generates an about page for a software company  
+A node command line utility that generates an about page for a team
+
+![Alt text](https://github.com/Fonyx/teamGenerator/blob/main/assets/images/screenshot.PNG?raw=true "project screenshot")  
 
 ## License
 
-MIT License  
+MIT License
 
 ### Details  
 
@@ -26,6 +28,7 @@ MIT License
 
 - [Dependencies](#dependencies)
 - [Usage](#usage)
+- [Video](#video)
 - [Contributors](#contributors)
 - [Installation](#installation)
 - [Credits](#credits)
@@ -53,10 +56,16 @@ MIT License
 
 ## Usage
 
-1: Run command npm start  
-2: Follow prompt to input member data  
-3: Add more members  
-4: Finish to trigger construction of output html - 'index.html'    
+1: Run command npm start    
+2: Follow prompt to input member data    
+3: Add more members    
+4: Finish to trigger construction of output html - 'index.html'     
+  
+Link to instructional video: https://drive.google.com/file/d/1VvZeEcCC_38J6xQezlUptuZgrb3TKoNU/view 
+
+## Video
+
+![Screenshot](https://github.com/Fonyx/teamGenerator/blob/main/assets/images/screencap.gif?raw=true "usage screencap")  
 
 ## Contributors 
 
@@ -64,37 +73,37 @@ MIT License
 
 ## Installation
 
-1: Install node  
-2: Checkout software and run npm install to install dependencies    
+1: Install node    
+2: Checkout software and run npm install to install dependencies  
 
 ## Credits
 
-This was a personal project so no specific mentions. I will shout out to the inquirer package for the 
-quality of their docs though    
+This was a personal project so no specific mentions. I will shout out to the inquirer package for the   
+quality of their docs though
 
 ## Features
 
-1: Program automatically builds employee cards for an about page  
-2: Card styling is customized for employee type  
-3: Employee cards contain live links to email addresses  
-4: If employee is an engineer, card contains a live link to their github account  
+1: Program automatically builds employee cards for an about page    
+2: Card styling is customized for employee type    
+3: Employee cards contain live links to email addresses    
+4: If employee is an engineer, card contains a live link to their github account 
 
 ## Contributing
 
-This project is closed to contributions as it is a personal assignment, 
-but if you are compelled to point something out, feel free to open an issue or create a pull request. 
-I don't guarantee that I will see it promptly though.  
+This project is closed to contributions as it is a personal assignment,   
+but if you are compelled to point something out, feel free to open an issue or create a pull request.   
+I don't guarantee that I will see it promptly though. 
 
 ## Testing
 
-Jest framework in use. Testing is directed primarily towards class methods and object centric functions.
-Rendering of html functions have had minimal testing as the final output is very much the easiest place to test 
-output, automatic testing of rendered text and render modifications is a rabbit hole better avoided and picked up 
-with visual testing a few times.  
+Jest framework in use. Testing is directed primarily towards class methods and object centric functions.  
+Rendering of html functions have had minimal testing as the final output is very much the easiest place to test   
+output, automatic testing of rendered text and render modifications is a rabbit hole better avoided and picked up   
+with visual testing a few times. 
 
 ## Questions
 
-Comments can be directed to nick.alex.ritchie@gmail.com  
+Comments can be directed to nick.alex.ritchie@gmail.com 
 
 
 
