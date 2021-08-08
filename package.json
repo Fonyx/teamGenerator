@@ -1,7 +1,7 @@
 {
   "name": "teamGenerator",
   "version": "1.0.0",
-  "description": "A node command line utility that generates an about page for a software company",
+  "description": "A node command line utilitty that generates an about page for a software company",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -15,8 +15,8 @@
     "url": "git+https://github.com/Fonyx/teamGenerator.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Fonyx",
+  "license": "MIT License",
   "bugs": {
     "url": "https://github.com/Fonyx/teamGenerator/issues"
   },
