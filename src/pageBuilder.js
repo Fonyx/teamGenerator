@@ -83,7 +83,7 @@ class PageBuilder{
         this.$ = undefined;
         this.employees = [];
         this.buildStarterCheerio(title);
-        this.exportPath = __dirname+'/'+this.title+'.html';
+        this.exportPath = __dirname+'/'+this.title.replace(/\s/g, '')+'.html';
     }
 
     /**
