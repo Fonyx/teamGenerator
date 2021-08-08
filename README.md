@@ -66,7 +66,8 @@ MIT License
   
 
   
-Link to instructional video: https://drive.google.com/file/d/1VvZeEcCC_38J6xQezlUptuZgrb3TKoNU/view 
+Link to instructional video: 
+https://drive.google.com/file/d/1zdQ3eP_-olyhR1hTIMcl73mzXP_hiEaf/view 
 
 ## Video
 
