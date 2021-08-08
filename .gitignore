@@ -105,3 +105,4 @@ dist
 
 # no html files as the output is an html doc
 *.html
+*.mp4
