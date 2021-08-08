@@ -67,7 +67,7 @@ describe('Constructing member from answers', () => {
     it('Should raise MissingArgumentError when missing type', () => {
         // setup
         let answerMissingType = {memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingType);
@@ -77,7 +77,7 @@ describe('Constructing member from answers', () => {
     it('Should raise MissingArgumentError when missing name', () => {
         // setup
         let answerMissingName = {memberType: 'Engineer', memberId: 1, memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingName);
@@ -86,7 +86,7 @@ describe('Constructing member from answers', () => {
     it('Should raise MissingArgumentError when missing id', () => {
         // setup
         let answerMissingId = {memberType: 'Engineer', memberName: 'James', memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingId);
@@ -95,7 +95,7 @@ describe('Constructing member from answers', () => {
     it('Should raise MissingArgumentError when missing email', () => {
         // setup
         let answerMissingEmail = {memberType: 'Engineer', memberName: 'James', memberId: 1, memberGithubLink: 'https://github.com/Fonyx'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingEmail);
@@ -105,7 +105,7 @@ describe('Constructing member from answers', () => {
     it('Should raise MissingArgument when missing githublink for engineer', () => {
         // setup
         let answerMissingGithub = {memberType: 'Engineer', memberName: 'James', memberId: 1, memberEmail: 'nick@g.com'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingGithub);
@@ -114,7 +114,7 @@ describe('Constructing member from answers', () => {
     it('Should raise MissingArgumentError when missing office number for manager', () => {
         // setup
         let answerMissingGithub = {memberType: 'Manager', memberName: 'James', memberId: 1, memberEmail:'Valid@email.this'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingGithub);
@@ -123,7 +123,7 @@ describe('Constructing member from answers', () => {
     it('Should raise MissingArgumentError when missing school name for intern', () => {
         // setup
         let answerMissingGithub = {memberType: 'Intern', memberName: 'James', memberId: 1, memberEmail:'Valid@email.this'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(answerMissingGithub);
@@ -133,7 +133,7 @@ describe('Constructing member from answers', () => {
     it('Should raise AttributeError when type not exactly in valid type list', () => {
         // setup
         let badTypeAnswer = {memberType: 'inte', memberName: 'James', memberId: 1, memberEmail:'Valid@email.this'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(badTypeAnswer);
@@ -142,7 +142,7 @@ describe('Constructing member from answers', () => {
     it('Should raise AttributeError when type not exactly in valid type list', () => {
         // setup
         let badTypeAnswer = {memberType: 'engineering', memberName: 'James', memberId: 1, memberEmail:'Valid@email.this'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run and test
         expect(() => {
             pb.constructEmployeeFromBaseAnswers(badTypeAnswer);
@@ -152,7 +152,7 @@ describe('Constructing member from answers', () => {
     it('should return valid object for valid answer object as engineer type', () => {
         // setup
         let validEngineerAnswers = {memberType: 'Engineer',memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberGithubLink: 'https://github.com/Fonyx'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run
         let engineer = pb.constructEmployeeFromBaseAnswers(validEngineerAnswers)
         // test
@@ -165,7 +165,7 @@ describe('Constructing member from answers', () => {
     it('should return valid object for passing valid answer object as manager type', () => {
         // setup
         let validManagerAnswers = {memberType: 'Manager',memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberOfficeNumber: 1};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run
         let manager = pb.constructEmployeeFromBaseAnswers(validManagerAnswers)
         // test
@@ -178,7 +178,7 @@ describe('Constructing member from answers', () => {
     it('should return valid object for passing valid answer object as intern type', () => {
         // setup
         let validInternAnswers = {memberType: 'Intern',memberName: 'James', memberId: 1, memberEmail: 'nick@g.com', memberSchoolName: 'Radford'};
-        let pb = new pageBuilder.PageBuilder('Test');
+        let pb = new pageBuilder.PageBuilder({title:'Test'});
         // run
         let intern = pb.constructEmployeeFromBaseAnswers(validInternAnswers);
         // test
