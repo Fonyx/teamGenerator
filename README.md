@@ -56,11 +56,16 @@ MIT License
 
 ## Usage
 
-1: Run command npm start    
-2: Follow prompt to input member data    
-3: Add more members    
-4: Finish to trigger construction of output html - 'index.html'     
-  
+1: Run command npm start  
+  
+2: Follow prompt to input member data  
+  
+3: Add more members  
+  
+4: Finish to trigger construction of output html - 'teamName.html'   
+  
+
+  
 Link to instructional video: https://drive.google.com/file/d/1VvZeEcCC_38J6xQezlUptuZgrb3TKoNU/view 
 
 ## Video
@@ -73,32 +78,42 @@ Link to instructional video: https://drive.google.com/file/d/1VvZeEcCC_38J6xQezl
 
 ## Installation
 
-1: Install node    
+1: Install node  
+  
 2: Checkout software and run npm install to install dependencies  
 
 ## Credits
 
-This was a personal project so no specific mentions. I will shout out to the inquirer package for the   
+This was a personal project so no specific mentions. I will shout out to the inquirer package for the 
+  
 quality of their docs though
 
 ## Features
 
-1: Program automatically builds employee cards for an about page    
-2: Card styling is customized for employee type    
-3: Employee cards contain live links to email addresses    
+1: Program automatically builds employee cards for an about page  
+  
+2: Card styling is customized for employee type  
+  
+3: Employee cards contain live links to email addresses  
+  
 4: If employee is an engineer, card contains a live link to their github account 
 
 ## Contributing
 
-This project is closed to contributions as it is a personal assignment,   
-but if you are compelled to point something out, feel free to open an issue or create a pull request.   
+This project is closed to contributions as it is a personal assignment, 
+  
+but if you are compelled to point something out, feel free to open an issue or create a pull request. 
+  
 I don't guarantee that I will see it promptly though. 
 
 ## Testing
 
-Jest framework in use. Testing is directed primarily towards class methods and object centric functions.  
-Rendering of html functions have had minimal testing as the final output is very much the easiest place to test   
-output, automatic testing of rendered text and render modifications is a rabbit hole better avoided and picked up   
+Jest framework in use. Testing is directed primarily towards class methods and object centric functions.
+  
+Rendering of html functions have had minimal testing as the final output is very much the easiest place to test 
+  
+output, automatic testing of rendered text and render modifications is a rabbit hole better avoided and picked up 
+  
 with visual testing a few times. 
 
 ## Questions
