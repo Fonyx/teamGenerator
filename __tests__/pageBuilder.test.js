@@ -1,5 +1,5 @@
+const fs = require('fs');
 const pageBuilder = require('../src/pageBuilder');
-const cheerio = require('cheerio');
 const exceptions = require('../lib/Exceptions');
 const Engineer = require('../lib/Engineer');
 const Manager = require('../lib/Manager');
@@ -15,9 +15,10 @@ describe('PageBuilder Initializing', () => {
             expect(renderer.$('head').html()).toEqual(expect.stringContaining(testTitle));
             expect(renderer.$('header').html()).toEqual(expect.stringContaining(testTitle));
             expect(renderer.$('footer').html()).toEqual(expect.stringContaining(testTitle));
-        });
-    });
-    
+        })
+});
+
+// Testing parser add method
 describe('Adding content to selector', () => {
     // ------------------- Unhappy path
     it('UHP passing in object instead of string to selector should raise badArgumentError', ()=> {
@@ -58,8 +59,9 @@ describe('Adding content to selector', () => {
         renderer.appendContentBySelector({selector: validSelector, content: validContent});
         expect(renderer.getHtml()).toEqual(expect.stringContaining('<h1>Did this get added</h1>'));
     });
-})
+});
 
+// Testing object constructors from user answers
 describe('Constructing member from answers', () => {
     // --------------------- UNHAPPY PATHS
     it('Should raise MissingArgumentError when missing type', () => {
@@ -185,6 +187,59 @@ describe('Constructing member from answers', () => {
         expect(intern.id).toBe(validInternAnswers.memberId);
         expect(intern.email).toBe(validInternAnswers.memberEmail);
         expect(intern.school).toBe(validInternAnswers.memberSchoolName);
+    });
+});
+
+// Output testing using parser - happy path only
+describe('HTML output presence testing', () => {
+    it('HP Should contain a valid engineer card for a valid engineer object construction', () => {
+        let pb = new pageBuilder.PageBuilder({title: 'TestHtml'});
+        let employee = new Engineer({name: 'James', id:2, email:"james@fake.me", github:"https://github.com/Fonyx"});
+        pb.addEmployee(employee);
+        let html = pb.renderHtml();
+        expect(html).toEqual(expect.stringContaining(employee.id.toString()));
+        expect(html).toEqual(expect.stringContaining(employee.getRole()));
+        expect(html).toEqual(expect.stringContaining(employee.name.toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employee.getGithub()));
+        
+    });
+    it('HP Should contain a valid manager card for a valid manager object construction', () => {
+        let pb = new pageBuilder.PageBuilder({title: 'TestHtml'});
+        let employee = new Manager({name: 'James', id:2, email:"james@fake.me", officeNumber:3});
+        pb.addEmployee(employee);
+        let html = pb.renderHtml();
+        expect(html).toEqual(expect.stringContaining(employee.name.toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employee.id.toString()));
+        expect(html).toEqual(expect.stringContaining(employee.getRole()));
+        expect(html).toEqual(expect.stringContaining(employee.officeNumber.toString()));
+        
+    });
+    it('HP Should contain a valid intern card for a valid intern object construction', () => {
+        let pb = new pageBuilder.PageBuilder({title: 'TestHtml'});
+        let employee = new Intern({name: 'James', id:2, email:"james@fake.me", school:"Trinity"});
+        pb.addEmployee(employee);
+        let html = pb.renderHtml();
+        expect(html).toEqual(expect.stringContaining(employee.name.toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employee.id.toString()));
+        expect(html).toEqual(expect.stringContaining(employee.getRole()));
+        expect(html).toEqual(expect.stringContaining(employee.school));
+
+    });
+});
+
+// Testing file io
+describe('Export html to file testing', () => {
+    // Happy path
+    var pb = new pageBuilder.PageBuilder({title: 'TestHtml'});
+    var validEngineer = new Engineer({name: 'James', id:2, email:"james@fake.me", github:"https://github.com/Fonyx"});
+    pb.addEmployee(validEngineer);
+    it('HP Successfully write file with html', () => {
+        // exports file
+        pb.exportHtml();
+        // checks file is there
+        expect(fs.existsSync(pb.exportPath)).toBe(true);
+        // deletes file
+        fs.unlinkSync(pb.exportPath);
     });
 })
 

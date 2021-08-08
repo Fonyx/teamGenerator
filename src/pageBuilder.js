@@ -83,6 +83,22 @@ class PageBuilder{
         this.$ = undefined;
         this.employees = [];
         this.buildStarterCheerio(title);
+        this.exportPath = __dirname+'/'+this.title+'.html';
+    }
+
+    /**
+     * Adds a doctype html tag to the top of the cheerio document and returns the html as a string
+     * Use this immediately before rendering
+     * @returns doctyped html
+     */
+    addDoctypeToHtml(){
+        let faultyHtml = this.getHtml();
+        let doctypedHtml = '<!DOCTYPE html>\n'+faultyHtml;
+        return doctypedHtml;
+    }
+
+    addEmployee(newEmployee){
+        this.employees.push(newEmployee);
     }
 
     appendContentBySelector({selector, content}={}){
@@ -138,7 +154,8 @@ class PageBuilder{
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="./dist/js/materialize.min.js"></script>\n`);
 
-        this.appendContentBySelector({selector: 'head', content: headMeta})
+        this.appendContentBySelector({selector: 'head', content: headMeta});
+        this.addDoctypeToHtml();
     }
 
     constructEmployeeFromBaseAnswers(answers){
@@ -183,20 +200,18 @@ class PageBuilder{
                 break
         }
 
-        this.employees.push(newMember);
+        this.addEmployee(newMember);
         return newMember;
     }
-
+    /**
+     * Outputs rendered html to the export path file location
+     */
     exportHtml(){
-        this.makeCardsFromObjects();
-        let html = this.getHtml();
-        fs.writeFileSync('index.html', html, 'utf8');
+        fs.writeFileSync(this.exportPath, this.renderHtml(), 'utf8');
     }
 
     getHtml(){
-        let faultyHtml = this.$.root().html();
-        let doctypedHtml = '<!DOCTYPE html>\n'+faultyHtml;
-        return doctypedHtml;
+        return this.$.root().html();
     }
 
     /**
@@ -284,6 +299,15 @@ class PageBuilder{
         .catch((error) => {
             console.error(error);
         })
+    }
+    /**
+     * Returns the final document html as a string, does not save file
+     */
+    renderHtml(){
+        this.makeCardsFromObjects();
+        // add doctype as we are about to export
+        let html = this.addDoctypeToHtml();
+        return html;
     }
 
     async run(){
