@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# no html files as the output is an html doc
+*.html

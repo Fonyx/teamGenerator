@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 
 inquirer.prompt({
     'type': 'input',
-    'message':'Company Name?',
+    'message':'Team Name?',
     'name':'title',
     validate:pb.confirmStringValidator,
 })

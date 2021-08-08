@@ -8,7 +8,8 @@ const Engineer = require('../lib/Engineer');
 const Manager = require('../lib/Manager');
 const Intern = require('../lib/Intern');
 const Employee = require('../lib/Employee');
-const validMemberTypes = ['Engineer', 'Intern', 'Manager']
+// const validMemberTypes = ['Engineer', 'Intern', 'Manager'];
+var memberTypes = ['Engineer', 'Intern', 'Manager'];
 
 
 // https://stackoverflow.com/questions/57321266/how-to-test-inquirer-validation
@@ -163,7 +164,7 @@ class PageBuilder{
         if(!answers.memberType){
             throw new exceptions.MissingArgumentError();
         }
-        if(!validMemberTypes.includes(answers.memberType)){
+        if(!memberTypes.includes(answers.memberType)){
             throw new exceptions.AttributeError(`Invalid attribute type, ${answers.type} not in valid member types`);
         }
         // answers must have valid core attributes
@@ -188,6 +189,8 @@ class PageBuilder{
                     // if this is undefined, Manager constructor handles
                     officeNumber:answers.memberOfficeNumber,
                 })
+                // pop manager off the list of available types
+                memberTypes.pop();
                 break
             case 'Intern':
                 var newMember = new Intern({
@@ -244,7 +247,7 @@ class PageBuilder{
             type: 'list',
             message: 'Team member type',
             name: 'memberType',
-            choices: ['Manager', 'Engineer', 'Intern'],
+            choices: memberTypes,
         }])
         .then(async (baseAnswers) => {
             switch (baseAnswers.memberType){

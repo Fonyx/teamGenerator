@@ -194,35 +194,35 @@ describe('Constructing member from answers', () => {
 describe('HTML output presence testing', () => {
     it('HP Should contain a valid engineer card for a valid engineer object construction', () => {
         let pb = new pageBuilder.PageBuilder({title: 'TestHtml'});
-        let employee = new Engineer({name: 'James', id:2, email:"james@fake.me", github:"https://github.com/Fonyx"});
-        pb.addEmployee(employee);
+        let employeeEngineer = new Engineer({name: 'James', id:2, email:"james@fake.me", github:"https://github.com/Fonyx"});
+        pb.addEmployee(employeeEngineer);
         let html = pb.renderHtml();
-        expect(html).toEqual(expect.stringContaining(employee.id.toString()));
-        expect(html).toEqual(expect.stringContaining(employee.getRole()));
-        expect(html).toEqual(expect.stringContaining(employee.name.toUpperCase()));
-        expect(html).toEqual(expect.stringContaining(employee.getGithub()));
+        expect(html).toEqual(expect.stringContaining(employeeEngineer.id.toString()));
+        expect(html).toEqual(expect.stringContaining(employeeEngineer.getRole().toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employeeEngineer.name.toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employeeEngineer.getGithub()));
         
     });
     it('HP Should contain a valid manager card for a valid manager object construction', () => {
         let pb = new pageBuilder.PageBuilder({title: 'TestHtml'});
-        let employee = new Manager({name: 'James', id:2, email:"james@fake.me", officeNumber:3});
-        pb.addEmployee(employee);
+        let employeeManager = new Manager({name: 'James', id:2, email:"james@fake.me", officeNumber:3});
+        pb.addEmployee(employeeManager);
         let html = pb.renderHtml();
-        expect(html).toEqual(expect.stringContaining(employee.name.toUpperCase()));
-        expect(html).toEqual(expect.stringContaining(employee.id.toString()));
-        expect(html).toEqual(expect.stringContaining(employee.getRole()));
-        expect(html).toEqual(expect.stringContaining(employee.officeNumber.toString()));
+        expect(html).toEqual(expect.stringContaining(employeeManager.name.toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employeeManager.id.toString()));
+        expect(html).toEqual(expect.stringContaining(employeeManager.getRole().toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employeeManager.officeNumber.toString()));
         
     });
     it('HP Should contain a valid intern card for a valid intern object construction', () => {
         let pb = new pageBuilder.PageBuilder({title: 'TestHtml'});
-        let employee = new Intern({name: 'James', id:2, email:"james@fake.me", school:"Trinity"});
-        pb.addEmployee(employee);
+        let employeeIntern = new Intern({name: 'James', id:2, email:"james@fake.me", school:"Trinity"});
+        pb.addEmployee(employeeIntern);
         let html = pb.renderHtml();
-        expect(html).toEqual(expect.stringContaining(employee.name.toUpperCase()));
-        expect(html).toEqual(expect.stringContaining(employee.id.toString()));
-        expect(html).toEqual(expect.stringContaining(employee.getRole()));
-        expect(html).toEqual(expect.stringContaining(employee.school));
+        expect(html).toEqual(expect.stringContaining(employeeIntern.name.toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employeeIntern.id.toString()));
+        expect(html).toEqual(expect.stringContaining(employeeIntern.getRole().toUpperCase()));
+        expect(html).toEqual(expect.stringContaining(employeeIntern.school));
 
     });
 });
