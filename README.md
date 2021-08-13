@@ -10,7 +10,7 @@
 
 A node command line utility that generates an about page for a team
 
-![Alt text](https://github.com/Fonyx/teamGenerator/blob/main/assets/images/screenshot.PNG?raw=true "project screenshot")  
+![Alt text](https://github.com/Fonyx/teamGenerator/blob/main/assets/images/show.gif?raw=true "project show cap gif")  
 
 ## License
 
@@ -71,7 +71,7 @@ https://drive.google.com/file/d/1zdQ3eP_-olyhR1hTIMcl73mzXP_hiEaf/view
 
 ## Video
 
-![Screenshot](https://github.com/Fonyx/teamGenerator/blob/main/assets/images/screencap.gif?raw=true "usage screencap")  
+![Screenshot](https://github.com/Fonyx/teamGenerator/blob/main/assets/images/usage.gif?raw=true "usage screencap")  
 
 ## Contributors 
 
